@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"strings"
 
+	"strconv"
+
 	"github.com/klauern/adventcode-2016/helpers"
 )
 
@@ -28,8 +30,26 @@ func main() {
 	}
 }
 
+// CalculatePosition will calculate the position of the piece after the move given in the 'next' string.
 func (p Position) CalculatePosition(next string) Position {
-	return p
+	dir := p.CalculateDirection(next)
+	distance, err := strconv.Atoi(next[1:])
+	if err != nil {
+		panic(err)
+	}
+	x := p.X
+	y := p.Y
+	switch dir {
+	case 'N':
+		y += distance
+	case 'E':
+		x += distance
+	case 'W':
+		x -= distance
+	case 'S':
+		y -= distance
+	}
+	return Position{x, y, dir}
 }
 
 // CalculateDirection will calculate the next Position of an entry
