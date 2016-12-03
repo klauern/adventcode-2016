@@ -23,11 +23,13 @@ func (p Position) Stringer() string {
 
 func main() {
 	input := helpers.MustLoadFile("input.txt")
+	input = strings.Trim(input, "\n ")
 
 	pos := CalculateMovement(input)
 	fmt.Printf("Position: %s", pos)
 }
 
+// CalculateMovement will calculate the final position of a piece.
 func CalculateMovement(moves string) *Position {
 	inputs := strings.Split(moves, ", ")
 
