@@ -20,6 +20,8 @@ func main() {
 	}
 }
 
+// CalculatePosition will calculate the next Position of an entry
+// given the movement string.
 func (p Position) CalculatePosition(next string) Position {
 	return p
 }
