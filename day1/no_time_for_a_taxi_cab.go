@@ -24,6 +24,10 @@ func main() {
 	}
 }
 
+func (p Position) CalculatePosition(next string) Position {
+	return p
+}
+
 // CalculateDirection will calculate the next Position of an entry
 // given the movement string.
 func (p Position) CalculateDirection(next string) rune {
