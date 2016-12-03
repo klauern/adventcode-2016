@@ -32,7 +32,7 @@ func (p Position) CalculatePosition(next string) Position {
 // given the movement string.
 func (p Position) CalculateDirection(next string) rune {
 	turn := next[0]
-	fmt.Printf("Turning %x\n", turn)
+	fmt.Printf("Turning %c\n", turn)
 	switch p.DirectionFacing {
 	case 'N':
 		if turn == 'L' {

@@ -31,7 +31,54 @@ func TestPosition_CalculateDirection(t *testing.T) {
 		args   args
 		want   rune
 	}{
-	// TODO: Add test cases.
+		{
+			"West Left Turn",
+			fields{0, 0, 'N'},
+			args{"L0"},
+			'W',
+		},
+		{
+			"West Right Turn",
+			fields{0, 0, 'S'},
+			args{"R0"},
+			'W',
+		},
+		{
+			"North Left Turn",
+			fields{0, 0, 'E'},
+			args{"L0"},
+			'N',
+		},
+		{
+			"North Right Turn",
+			fields{0, 0, 'W'},
+			args{"R0"},
+			'N',
+		},
+		{
+			"East Left Turn",
+			fields{0, 0, 'S'},
+			args{"L0"},
+			'E',
+		},
+		{
+			"East Right Turn",
+			fields{0, 0, 'N'},
+			args{"R0"},
+			'E',
+		},
+		{
+			"South Left Turn",
+			fields{0, 0, 'W'},
+			args{"L0"},
+			'S',
+		},
+		{
+			"South Right Turn",
+			fields{0, 0, 'E'},
+			args{"R0"},
+			'S',
+		},
 	}
 	for _, tt := range tests {
 		p := Position{
