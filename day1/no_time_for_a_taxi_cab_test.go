@@ -108,10 +108,52 @@ func TestPosition_CalculatePosition(t *testing.T) {
 		want   Position
 	}{
 		{
-			"L2",
+			"L2 Facing N",
 			fields{0, 0, 'N'},
 			args{"L2"},
-			Position{X: 0, Y: 2, DirectionFacing: 'W'},
+			Position{X: -2, Y: 0, DirectionFacing: 'W'},
+		},
+		{
+			"R2 Facing N",
+			fields{0, 0, 'N'},
+			args{"R2"},
+			Position{X: 2, Y: 0, DirectionFacing: 'E'},
+		},
+		{
+			"R2 Facing E",
+			fields{0, 0, 'E'},
+			args{"R2"},
+			Position{X: 0, Y: -2, DirectionFacing: 'S'},
+		},
+		{
+			"L2 Facing E",
+			fields{0, 0, 'E'},
+			args{"L2"},
+			Position{X: 0, Y: 2, DirectionFacing: 'N'},
+		},
+		{
+			"L2 Facing W",
+			fields{0, 0, 'W'},
+			args{"L2"},
+			Position{X: 0, Y: -2, DirectionFacing: 'S'},
+		},
+		{
+			"R2 Facing W",
+			fields{0, 0, 'W'},
+			args{"R2"},
+			Position{X: 0, Y: 2, DirectionFacing: 'N'},
+		},
+		{
+			"R2 Facing S",
+			fields{0, 0, 'S'},
+			args{"R2"},
+			Position{X: -2, Y: 0, DirectionFacing: 'W'},
+		},
+		{
+			"L2 Facing S",
+			fields{0, 0, 'S'},
+			args{"L2"},
+			Position{X: 2, Y: 0, DirectionFacing: 'E'},
 		},
 		// TODO: Add test cases.
 	}
