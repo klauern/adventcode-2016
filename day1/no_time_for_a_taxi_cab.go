@@ -17,7 +17,7 @@ type Position struct {
 }
 
 // Stringer prints the Position in a readable format.
-func (p Position) Stringer() string {
+func (p Position) String() string {
 	return fmt.Sprintf("X: %v, Y: %v, Dir: %c", p.X, p.Y, p.DirectionFacing)
 }
 
@@ -26,14 +26,14 @@ func main() {
 	input = strings.Trim(input, "\n ")
 
 	pos := CalculateMovement(input)
-	fmt.Printf("Position: %s", pos)
+	fmt.Printf("Position: %v", pos)
 }
 
 // CalculateMovement will calculate the final position of a piece.
 func CalculateMovement(moves string) *Position {
 	inputs := strings.Split(moves, ", ")
 
-	current := &Position{}
+	current := &Position{0, 0, 'N'}
 	for _, next := range inputs {
 		current = current.CalculatePosition(next)
 	}
@@ -90,5 +90,5 @@ func (p *Position) CalculateDirection(next string) rune {
 		}
 		return 'W'
 	}
-	return 'G'
+	panic(fmt.Errorf("Unknown Direction: %c", turn))
 }
