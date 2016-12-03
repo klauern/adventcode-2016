@@ -16,7 +16,7 @@ type Position struct {
 	DirectionFacing rune
 }
 
-// Stringer prints the Position in a
+// Stringer prints the Position in a readable format.
 func (p Position) Stringer() string {
 	return fmt.Sprintf("X: %v, Y: %v, Dir: %c", p.X, p.Y, p.DirectionFacing)
 }
