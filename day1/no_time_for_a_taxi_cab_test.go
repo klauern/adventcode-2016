@@ -107,7 +107,13 @@ func TestPosition_CalculatePosition(t *testing.T) {
 		args   args
 		want   Position
 	}{
-	// TODO: Add test cases.
+		{
+			"L2",
+			fields{0, 0, 'N'},
+			args{"L2"},
+			Position{X: 0, Y: 2, DirectionFacing: 'W'},
+		},
+		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		p := Position{

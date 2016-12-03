@@ -14,6 +14,10 @@ type Position struct {
 	DirectionFacing rune
 }
 
+func (p Position) Stringer() string {
+	return fmt.Sprintf("X: %v, Y: %v, Dir: %c", p.X, p.Y, p.DirectionFacing)
+}
+
 func main() {
 	input := helpers.MustLoadFile("input.txt")
 	inputs := strings.Split(input, ", ")
