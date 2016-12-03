@@ -4,10 +4,10 @@ import (
 	"io/ioutil"
 )
 
-func LoadFile(path string) (string, error) {
+func MustLoadFile(path string) string {
 	b, err := ioutil.ReadFile(path)
 	if err != nil {
-		return "", err
+		panic(err)
 	}
-	return string(b), nil
+	return string(b)
 }
