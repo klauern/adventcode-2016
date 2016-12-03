@@ -16,6 +16,7 @@ type Position struct {
 	DirectionFacing rune
 }
 
+// Stringer prints the Position in a
 func (p Position) Stringer() string {
 	return fmt.Sprintf("X: %v, Y: %v, Dir: %c", p.X, p.Y, p.DirectionFacing)
 }
@@ -23,7 +24,8 @@ func (p Position) Stringer() string {
 func main() {
 	input := helpers.MustLoadFile("input.txt")
 
-	CalculateMovement(input)
+	pos := CalculateMovement(input)
+	fmt.Printf("Position: %s", pos)
 }
 
 func CalculateMovement(moves string) *Position {
