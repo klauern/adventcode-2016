@@ -16,13 +16,40 @@ func Test_main(t *testing.T) {
 	}
 }
 
+func TestPosition_CalculateDirection(t *testing.T) {
+	type fields struct {
+		X               int
+		Y               int
+		DirectionFacing rune
+	}
+	type args struct {
+		next string
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		args   args
+		want   rune
+	}{
+	// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		p := Position{
+			X:               tt.fields.X,
+			Y:               tt.fields.Y,
+			DirectionFacing: tt.fields.DirectionFacing,
+		}
+		if got := p.CalculateDirection(tt.args.next); got != tt.want {
+			t.Errorf("%q. Position.CalculateDirection() = %v, want %v", tt.name, got, tt.want)
+		}
+	}
+}
+
 func TestPosition_CalculatePosition(t *testing.T) {
 	type fields struct {
-		North           int
-		South           int
-		East            int
-		West            int
-		DirectionFacing string
+		X               int
+		Y               int
+		DirectionFacing rune
 	}
 	type args struct {
 		next string
@@ -37,10 +64,8 @@ func TestPosition_CalculatePosition(t *testing.T) {
 	}
 	for _, tt := range tests {
 		p := Position{
-			North:           tt.fields.North,
-			South:           tt.fields.South,
-			East:            tt.fields.East,
-			West:            tt.fields.West,
+			X:               tt.fields.X,
+			Y:               tt.fields.Y,
 			DirectionFacing: tt.fields.DirectionFacing,
 		}
 		if got := p.CalculatePosition(tt.args.next); !reflect.DeepEqual(got, tt.want) {
