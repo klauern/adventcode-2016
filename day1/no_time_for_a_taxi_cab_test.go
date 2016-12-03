@@ -105,55 +105,55 @@ func TestPosition_CalculatePosition(t *testing.T) {
 		name   string
 		fields fields
 		args   args
-		want   Position
+		want   *Position
 	}{
 		{
 			"L2 Facing N",
 			fields{0, 0, 'N'},
 			args{"L2"},
-			Position{X: -2, Y: 0, DirectionFacing: 'W'},
+			&Position{X: -2, Y: 0, DirectionFacing: 'W'},
 		},
 		{
 			"R2 Facing N",
 			fields{0, 0, 'N'},
 			args{"R2"},
-			Position{X: 2, Y: 0, DirectionFacing: 'E'},
+			&Position{X: 2, Y: 0, DirectionFacing: 'E'},
 		},
 		{
 			"R2 Facing E",
 			fields{0, 0, 'E'},
 			args{"R2"},
-			Position{X: 0, Y: -2, DirectionFacing: 'S'},
+			&Position{X: 0, Y: -2, DirectionFacing: 'S'},
 		},
 		{
 			"L2 Facing E",
 			fields{0, 0, 'E'},
 			args{"L2"},
-			Position{X: 0, Y: 2, DirectionFacing: 'N'},
+			&Position{X: 0, Y: 2, DirectionFacing: 'N'},
 		},
 		{
 			"L2 Facing W",
 			fields{0, 0, 'W'},
 			args{"L2"},
-			Position{X: 0, Y: -2, DirectionFacing: 'S'},
+			&Position{X: 0, Y: -2, DirectionFacing: 'S'},
 		},
 		{
 			"R2 Facing W",
 			fields{0, 0, 'W'},
 			args{"R2"},
-			Position{X: 0, Y: 2, DirectionFacing: 'N'},
+			&Position{X: 0, Y: 2, DirectionFacing: 'N'},
 		},
 		{
 			"R2 Facing S",
 			fields{0, 0, 'S'},
 			args{"R2"},
-			Position{X: -2, Y: 0, DirectionFacing: 'W'},
+			&Position{X: -2, Y: 0, DirectionFacing: 'W'},
 		},
 		{
 			"L2 Facing S",
 			fields{0, 0, 'S'},
 			args{"L2"},
-			Position{X: 2, Y: 0, DirectionFacing: 'E'},
+			&Position{X: 2, Y: 0, DirectionFacing: 'E'},
 		},
 		// TODO: Add test cases.
 	}
@@ -165,6 +165,39 @@ func TestPosition_CalculatePosition(t *testing.T) {
 		}
 		if got := p.CalculatePosition(tt.args.next); !reflect.DeepEqual(got, tt.want) {
 			t.Errorf("%q. Position.CalculatePosition() = %v, want %v", tt.name, got, tt.want)
+		}
+	}
+}
+
+func TestPosition_Stringer(t *testing.T) {
+	tests := []struct {
+		name string
+		p    Position
+		want string
+	}{
+	// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		if got := tt.p.Stringer(); got != tt.want {
+			t.Errorf("%q. Position.Stringer() = %v, want %v", tt.name, got, tt.want)
+		}
+	}
+}
+
+func TestCalculateMovement(t *testing.T) {
+	type args struct {
+		moves string
+	}
+	tests := []struct {
+		name string
+		args args
+		want *Position
+	}{
+	// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		if got := CalculateMovement(tt.args.moves); !reflect.DeepEqual(got, tt.want) {
+			t.Errorf("%q. CalculateMovement() = %v, want %v", tt.name, got, tt.want)
 		}
 	}
 }

@@ -22,16 +22,23 @@ func (p Position) Stringer() string {
 
 func main() {
 	input := helpers.MustLoadFile("input.txt")
-	inputs := strings.Split(input, ", ")
+
+	CalculateMovement(input)
+}
+
+func CalculateMovement(moves string) *Position {
+	inputs := strings.Split(moves, ", ")
 
 	current := &Position{}
 	for _, next := range inputs {
-		current.CalculateDirection(next)
+		current = current.CalculatePosition(next)
 	}
+
+	return current
 }
 
 // CalculatePosition will calculate the position of the piece after the move given in the 'next' string.
-func (p Position) CalculatePosition(next string) Position {
+func (p *Position) CalculatePosition(next string) *Position {
 	dir := p.CalculateDirection(next)
 	distance, err := strconv.Atoi(next[1:])
 	if err != nil {
@@ -49,12 +56,12 @@ func (p Position) CalculatePosition(next string) Position {
 	case 'S':
 		y -= distance
 	}
-	return Position{x, y, dir}
+	return &Position{x, y, dir}
 }
 
 // CalculateDirection will calculate the next Position of an entry
 // given the movement string.
-func (p Position) CalculateDirection(next string) rune {
+func (p *Position) CalculateDirection(next string) rune {
 	turn := next[0]
 	fmt.Printf("Turning %c\n", turn)
 	switch p.DirectionFacing {
