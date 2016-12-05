@@ -1,0 +1,50 @@
+package main
+
+import (
+	"github.com/klauern/adventcode-2016/helpers"
+)
+
+type KeyPos struct {
+	X,
+	Y int
+}
+
+var positionTree = [][]int{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}
+
+func (k *KeyPos) CalcMoves(move rune) KeyPos {
+	switch move {
+	case 'U':
+		if k.Y == 0 {
+			return KeyPos{k.X, k.Y}
+		}
+		return KeyPos{k.X, k.Y - 1}
+	case 'D':
+		if k.Y == 2 {
+			return KeyPos{k.X, k.Y}
+		}
+		return KeyPos{k.X, k.Y + 1}
+	case 'R':
+		if k.X == 2 {
+			return KeyPos{k.X, k.Y}
+		}
+		return KeyPos{k.X + 1, k.Y}
+	case 'L':
+		if k.X == 0 {
+			return KeyPos{k.X, k.Y}
+		}
+		return KeyPos{k.X - 1, k.Y}
+	}
+	return KeyPos{-1, -1}
+}
+
+func (k *KeyPos) CalcNextDigit(moves string) KeyPos {
+	var next KeyPos
+	for _, move := range moves {
+		next = k.CalcMoves(move)
+	}
+	return next
+}
+
+func main() {
+	input := helpers.MustLoadFile("input.txt")
+}
