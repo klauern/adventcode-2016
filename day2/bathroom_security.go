@@ -9,6 +9,7 @@ type KeyPos struct {
 	Y int
 }
 
+var deadSpot = KeyPos{X: -1, Y: -1}
 var positionTree = [][]int{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}
 
 func (k *KeyPos) CalcMoves(move rune) KeyPos {
@@ -38,13 +39,18 @@ func (k *KeyPos) CalcMoves(move rune) KeyPos {
 }
 
 func (k *KeyPos) CalcNextDigit(moves string) KeyPos {
-	var next KeyPos
+	next := KeyPos{-1, -1}
 	for _, move := range moves {
-		next = k.CalcMoves(move)
+		if next == deadSpot {
+			next = k.CalcMoves(move)
+		} else {
+			next = next.CalcMoves(move)
+		}
 	}
 	return next
 }
 
 func main() {
-	input := helpers.MustLoadFile("input.txt")
+	helpers.MustLoadFile("input.txt")
+
 }
