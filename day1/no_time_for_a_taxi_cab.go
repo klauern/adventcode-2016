@@ -16,6 +16,9 @@ type Position struct {
 	DirectionFacing rune
 }
 
+var allPositions map[Position]bool
+var firstDouble Position
+
 // Stringer prints the Position in a readable format.
 func (p Position) String() string {
 	return fmt.Sprintf("X: %v, Y: %v, Dir: %c", p.X, p.Y, p.DirectionFacing)
@@ -29,6 +32,9 @@ func main() {
 	fmt.Printf("Position: %v\n", pos)
 
 	fmt.Printf("Distance: %v\n", pos.CalculateDistanceFromHome())
+
+	fmt.Printf("First Double Position: %v\n", firstDouble)
+	fmt.Printf("Distance from Double Position: %v\n", firstDouble.CalculateDistanceFromHome())
 }
 
 // CalculateMovement will calculate the final position of a piece.
@@ -36,8 +42,15 @@ func CalculateMovement(moves string) *Position {
 	inputs := strings.Split(moves, ", ")
 
 	current := &Position{0, 0, 'N'}
+	allPositions = make(map[Position]bool)
+	allPositions[*current] = true
 	for _, next := range inputs {
 		current = current.CalculatePosition(next)
+		if allPositions[*current] {
+			firstDouble = *current
+		} else {
+			allPositions[*current] = true
+		}
 	}
 
 	return current
