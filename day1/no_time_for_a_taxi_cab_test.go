@@ -169,21 +169,6 @@ func TestPosition_CalculatePosition(t *testing.T) {
 	}
 }
 
-func TestPosition_String(t *testing.T) {
-	tests := []struct {
-		name string
-		p    Position
-		want string
-	}{
-	// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		if got := tt.p.String(); got != tt.want {
-			t.Errorf("%q. Position.String() = %v, want %v", tt.name, got, tt.want)
-		}
-	}
-}
-
 func TestCalculateMovement(t *testing.T) {
 	type args struct {
 		moves string
