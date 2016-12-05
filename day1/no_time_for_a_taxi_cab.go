@@ -26,7 +26,9 @@ func main() {
 	input = strings.Trim(input, "\n ")
 
 	pos := CalculateMovement(input)
-	fmt.Printf("Position: %v", pos)
+	fmt.Printf("Position: %v\n", pos)
+
+	fmt.Printf("Distance: %v\n", pos.CalculateDistanceFromHome())
 }
 
 // CalculateMovement will calculate the final position of a piece.
@@ -91,4 +93,21 @@ func (p *Position) CalculateDirection(next string) rune {
 		return 'W'
 	}
 	panic(fmt.Errorf("Unknown Direction: %c", turn))
+}
+
+// CalculateDistanceFromHome will calculate the overall distance from the starting point using
+// cartesian coordinate calculations.
+func (p *Position) CalculateDistanceFromHome() int {
+	var x, y int
+	if p.X < 0 {
+		x = p.X * -1
+	} else {
+		x = p.X
+	}
+	if p.Y < 0 {
+		y = p.Y * -1
+	} else {
+		y = p.Y
+	}
+	return x + y
 }
