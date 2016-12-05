@@ -16,7 +16,7 @@ type Position struct {
 	DirectionFacing rune
 }
 
-var allPositions map[Position]bool
+var allPositions map[string]bool
 var firstDouble Position
 
 // Stringer prints the Position in a readable format.
@@ -42,14 +42,15 @@ func CalculateMovement(moves string) *Position {
 	inputs := strings.Split(moves, ", ")
 
 	current := &Position{0, 0, 'N'}
-	allPositions = make(map[Position]bool)
-	allPositions[*current] = true
+	allPositions = make(map[string]bool)
+	allPositions[current.String()] = true
 	for _, next := range inputs {
 		current = current.CalculatePosition(next)
-		if allPositions[*current] {
-			firstDouble = *current
+		currentN := Position{X: current.X, Y: current.Y, DirectionFacing: 'N'}
+		if allPositions[currentN.String()] {
+			firstDouble = currentN
 		} else {
-			allPositions[*current] = true
+			allPositions[currentN.String()] = true
 		}
 	}
 
