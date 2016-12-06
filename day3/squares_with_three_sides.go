@@ -37,14 +37,16 @@ func IsTriangle(sides []float64) bool {
 }
 
 func NewSide(s string) []float64 {
-	sides := strings.Split(s, " t")
+	fmt.Printf("Parsing line %v\n", s)
+	sides := strings.Fields(s)
 	sd := make([]float64, 0)
+	fmt.Printf("Length of ary %v\n", len(sides))
 	for _, v := range sides {
-		fl, err := strconv.ParseFloat(v, 64)
+		n, err := strconv.ParseFloat(v, 64)
 		if err != nil {
-			panic(fmt.Sprintf("%v is not a float", sides[0]))
+			panic(fmt.Sprintf("%v is not an integer", v))
 		}
-		sd = append(sd, fl)
+		sd = append(sd, n)
 	}
 	return sd
 }
@@ -52,5 +54,15 @@ func NewSide(s string) []float64 {
 func main() {
 	input := helpers.MustLoadFile("input.txt")
 	input = strings.TrimSpace(input)
-
+	input = strings.Trim(input, " \r\n\t")
+	inputs := strings.Split(input, "\n")
+	var possibles int
+	for _, v := range inputs {
+		fmt.Printf("Length of %v is %v\n", v, len(v))
+		s := NewSide(v)
+		if IsTriangle(s) {
+			possibles++
+		}
+	}
+	fmt.Printf("There are %v possible triangles", possibles)
 }

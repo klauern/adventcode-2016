@@ -92,7 +92,11 @@ func TestNewSide(t *testing.T) {
 		args args
 		want []float64
 	}{
-	// TODO: Add test cases.
+		{
+			"4   5  10",
+			args{"4   5  10"},
+			[]float64{4.0, 5.0, 10.0},
+		},
 	}
 	for _, tt := range tests {
 		if got := NewSide(tt.args.s); !reflect.DeepEqual(got, tt.want) {
