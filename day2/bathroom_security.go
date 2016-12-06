@@ -1,12 +1,20 @@
 package main
 
 import (
+	"fmt"
+	"strings"
+
 	"github.com/klauern/adventcode-2016/helpers"
 )
 
 type KeyPos struct {
 	X,
 	Y int
+}
+
+func (k KeyPos) String() string {
+	return fmt.Sprintf("%v %v", k.X, k.Y)
+
 }
 
 var deadSpot = KeyPos{X: -1, Y: -1}
@@ -35,7 +43,7 @@ func (k *KeyPos) CalcMoves(move rune) KeyPos {
 		}
 		return KeyPos{k.X - 1, k.Y}
 	}
-	return KeyPos{-1, -1}
+	return deadSpot
 }
 
 func (k *KeyPos) CalcNextDigit(moves string) KeyPos {
@@ -46,6 +54,9 @@ func (k *KeyPos) CalcNextDigit(moves string) KeyPos {
 		} else {
 			next = next.CalcMoves(move)
 		}
+		if next == deadSpot {
+			panic("Not able to set")
+		}
 	}
 	return next
 }
@@ -55,6 +66,16 @@ func (k *KeyPos) GetDigit() int {
 }
 
 func main() {
-	helpers.MustLoadFile("input.txt")
+	input := helpers.MustLoadFile("input.txt")
+	input = strings.TrimSpace(input)
+	lines := strings.Split(input, "\n")
 
+	key := &KeyPos{1, 1}
+	digits := make([]int, 0)
+	for _, digit := range lines {
+		d := key.CalcNextDigit(digit)
+		fmt.Printf("Digit is %v\n", d)
+		digits = append(digits, d.GetDigit())
+	}
+	fmt.Printf("Code is %v", digits)
 }
