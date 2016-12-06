@@ -50,6 +50,10 @@ func (k *KeyPos) CalcNextDigit(moves string) KeyPos {
 	return next
 }
 
+func (k *KeyPos) GetDigit() int {
+	return positionTree[k.Y][k.X]
+}
+
 func main() {
 	helpers.MustLoadFile("input.txt")
 
