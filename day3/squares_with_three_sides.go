@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+
+	"github.com/klauern/adventcode-2016/helpers"
 )
 
 func LargestSide(sides []float64) float64 {
@@ -45,4 +47,10 @@ func NewSide(s string) []float64 {
 		sd = append(sd, fl)
 	}
 	return sd
+}
+
+func main() {
+	input := helpers.MustLoadFile("input.txt")
+	input = strings.TrimSpace(input)
+
 }
