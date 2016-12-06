@@ -18,7 +18,14 @@ func (k KeyPos) String() string {
 }
 
 var deadSpot = KeyPos{X: -1, Y: -1}
-var positionTree = [][]int{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}
+var positionTree = [][]rune{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}
+var crazyPositionTree = [][]rune{
+	{'Z', 'Z', '1', 'Z', 'Z'},
+	{'Z', '2', '3', '4', 'Z'},
+	{'5', '6', '7', '8', '9'},
+	{'Z', 'A', 'B', 'C', 'Z'},
+	{'Z', 'Z', 'D', 'Z', 'Z'},
+}
 
 func (k *KeyPos) CalcMoves(move rune) KeyPos {
 	switch move {
