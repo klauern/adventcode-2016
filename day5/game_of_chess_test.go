@@ -23,7 +23,7 @@ func TestSumString(t *testing.T) {
 	}
 }
 
-func TestGetPassword(t *testing.T) {
+func TestGetPasswordForId(t *testing.T) {
 	type args struct {
 		doorId string
 	}
@@ -39,8 +39,8 @@ func TestGetPassword(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
-		if got := GetPassword(tt.args.doorId); got != tt.want {
-			t.Errorf("%q. GetPassword() = %v, want %v", tt.name, got, tt.want)
+		if got := GetPasswordForId(tt.args.doorId); got != tt.want {
+			t.Errorf("%q. GetPasswordForId(\"%v\") = %v, want %v", tt.args.doorId, tt.name, got, tt.want)
 		}
 	}
 }

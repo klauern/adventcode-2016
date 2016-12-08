@@ -25,10 +25,10 @@ func SumString(thing string) []byte {
 	return []byte{}
 }
 
-func GetPassword(doorId string) string {
-	return ""
+func GetPasswordForId(doorId string) string {
+	return doorId
 }
 
 func main() {
-	fmt.Printf("Door ID is %s, Password is %s", doorID, GetPassword(doorID))
+	fmt.Printf("Door ID is %s, Password is %s", doorID, GetPasswordForId(doorID))
 }
