@@ -7,6 +7,13 @@ import (
 	"io"
 )
 
+type DoorHash struct {
+	index     int64
+	id        string
+	hashVal   string
+	fiveZeros bool
+}
+
 const doorID = "ugkcyxxp"
 
 func HasFiveZeros(idx int, id string) bool {

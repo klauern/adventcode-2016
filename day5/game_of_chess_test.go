@@ -55,3 +55,26 @@ func Test_main(t *testing.T) {
 		main()
 	}
 }
+
+func TestHasFiveZeros(t *testing.T) {
+	type args struct {
+		idx int
+		id  string
+	}
+	tests := []struct {
+		name string
+		args args
+		want bool
+	}{
+		{
+			"abc,3231929",
+			args{id: "abc", idx: 3231929},
+			true,
+		},
+	}
+	for _, tt := range tests {
+		if got := HasFiveZeros(tt.args.idx, tt.args.id); got != tt.want {
+			t.Errorf("%q. HasFiveZeros() = %v, want %v", tt.name, got, tt.want)
+		}
+	}
+}
