@@ -14,7 +14,7 @@ func (c code) Decode() string {
 	colCode := c.SliceToColumns()
 	for i := range colCode {
 		cnts := countRuneAry(colCode[i])
-		common := commonRune(cnts)
+		common := mostCommonRune(cnts)
 		decoded = append(decoded, common)
 	}
 	return string(decoded)
@@ -45,7 +45,7 @@ func countRuneAry(chars []rune) map[rune]int {
 	return counts
 }
 
-func commonRune(runeCount map[rune]int) rune {
+func mostCommonRune(runeCount map[rune]int) rune {
 	highestVal := -1
 	var highestRune rune
 	for k, v := range runeCount {
@@ -59,7 +59,7 @@ func commonRune(runeCount map[rune]int) rune {
 
 func findMostCommonRune(runes []rune) rune {
 	counts := countRuneAry(runes)
-	return commonRune(counts)
+	return mostCommonRune(counts)
 }
 
 func NewCode(s string) code {

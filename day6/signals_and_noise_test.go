@@ -65,7 +65,7 @@ func Test_commonRune(t *testing.T) {
 	// TODO: Add test cases.
 	}
 	for _, tt := range tests {
-		if got := commonRune(tt.args.runeCount); got != tt.want {
+		if got := mostCommonRune(tt.args.runeCount); got != tt.want {
 			t.Errorf("%q. commonRune() = %v, want %v", tt.name, got, tt.want)
 		}
 	}
