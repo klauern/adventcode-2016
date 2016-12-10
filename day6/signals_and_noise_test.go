@@ -99,3 +99,60 @@ func Test_main(t *testing.T) {
 		main()
 	}
 }
+
+func TestNewCode(t *testing.T) {
+	type args struct {
+		s string
+	}
+	tests := []struct {
+		name string
+		args args
+		want code
+	}{
+	// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		if got := NewCode(tt.args.s); !reflect.DeepEqual(got, tt.want) {
+			t.Errorf("%q. NewCode() = %v, want %v", tt.name, got, tt.want)
+		}
+	}
+}
+
+func TestDecodeString(t *testing.T) {
+	type args struct {
+		s string
+	}
+	tests := []struct {
+		name string
+		args args
+		want string
+	}{
+		{
+			"thing",
+			args{
+				`eedadn
+drvtee
+eandsr
+raavrd
+atevrs
+tsrnev
+sdttsa
+rasrtv
+nssdts
+ntnada
+svetve
+tesnvt
+vntsnd
+vrdear
+dvrsen
+enarar`,
+			},
+			"easter",
+		},
+	}
+	for _, tt := range tests {
+		if got := DecodeString(tt.args.s); got != tt.want {
+			t.Errorf("%q. DecodeString() = %v, want %v", tt.name, got, tt.want)
+		}
+	}
+}

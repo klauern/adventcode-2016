@@ -20,6 +20,11 @@ func (c code) Decode() string {
 	return string(decoded)
 }
 
+func DecodeString(s string) string {
+	c := NewCode(s)
+	return c.Decode()
+}
+
 func (c code) SliceToColumns() code {
 	columns := make(code, 0)
 	for i := 0; i < len(c[0]); i++ {
