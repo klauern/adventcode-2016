@@ -83,7 +83,7 @@ func Test_findCommonRune(t *testing.T) {
 	// TODO: Add test cases.
 	}
 	for _, tt := range tests {
-		if got := findCommonRune(tt.args.runes); got != tt.want {
+		if got := findMostCommonRune(tt.args.runes); got != tt.want {
 			t.Errorf("%q. findCommonRune() = %v, want %v", tt.name, got, tt.want)
 		}
 	}

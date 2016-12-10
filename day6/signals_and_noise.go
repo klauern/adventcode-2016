@@ -57,7 +57,7 @@ func commonRune(runeCount map[rune]int) rune {
 	return highestRune
 }
 
-func findCommonRune(runes []rune) rune {
+func findMostCommonRune(runes []rune) rune {
 	counts := countRuneAry(runes)
 	return commonRune(counts)
 }
