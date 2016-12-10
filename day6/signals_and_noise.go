@@ -20,7 +20,7 @@ func (c code) Decode() string {
 	return string(decoded)
 }
 
-func DecodeString(s string) string {
+func DecodeMostCommonString(s string) string {
 	c := NewCode(s)
 	return c.Decode()
 }
@@ -73,6 +73,5 @@ func NewCode(s string) code {
 
 func main() {
 	str := helpers.MustLoadFile("input.txt")
-	c := NewCode(str)
-	fmt.Println(c.Decode())
+	fmt.Println(DecodeMostCommonString(str))
 }

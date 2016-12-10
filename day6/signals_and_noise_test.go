@@ -151,7 +151,7 @@ enarar`,
 		},
 	}
 	for _, tt := range tests {
-		if got := DecodeString(tt.args.s); got != tt.want {
+		if got := DecodeMostCommonString(tt.args.s); got != tt.want {
 			t.Errorf("%q. DecodeString() = %v, want %v", tt.name, got, tt.want)
 		}
 	}
