@@ -25,6 +25,22 @@ func DecodeMostCommonString(s string) string {
 	return c.DecodeMostCommon()
 }
 
+func DecodeLeastCommonString(s string) string {
+	c := NewCode(s)
+	return c.DecodeLeastCommon()
+}
+
+func (c code) DecodeLeastCommon() string {
+	decoded := make([]rune, 0)
+	colCode := c.SliceToColumns()
+	for i := range colCode {
+		cnts := countRuneAry(colCode[i])
+		common := leastCommonRune(cnts)
+		decoded = append(decoded, common)
+	}
+	return string(decoded)
+}
+
 func (c code) SliceToColumns() code {
 	columns := make(code, 0)
 	for i := 0; i < len(c[0]); i++ {
@@ -90,5 +106,5 @@ func NewCode(s string) code {
 
 func main() {
 	str := helpers.MustLoadFile("input.txt")
-	fmt.Println(DecodeMostCommonString(str))
+	fmt.Printf("Most Common: %s\nLeast Common: %s\n", DecodeMostCommonString(str), DecodeLeastCommonString(str))
 }
