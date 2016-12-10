@@ -9,7 +9,7 @@ import (
 
 type code [][]rune
 
-func (c code) Decode() string {
+func (c code) DecodeMostCommon() string {
 	decoded := make([]rune, 0)
 	colCode := c.SliceToColumns()
 	for i := range colCode {
@@ -22,7 +22,7 @@ func (c code) Decode() string {
 
 func DecodeMostCommonString(s string) string {
 	c := NewCode(s)
-	return c.Decode()
+	return c.DecodeMostCommon()
 }
 
 func (c code) SliceToColumns() code {
@@ -60,6 +60,23 @@ func mostCommonRune(runeCount map[rune]int) rune {
 func findMostCommonRune(runes []rune) rune {
 	counts := countRuneAry(runes)
 	return mostCommonRune(counts)
+}
+
+func findLeastCommonRune(runes []rune) rune {
+	counts := countRuneAry(runes)
+	return leastCommonRune(counts)
+}
+
+func leastCommonRune(runeCount map[rune]int) rune {
+	highestVal := 99999999
+	var highestRune rune
+	for k, v := range runeCount {
+		if runeCount[k] < highestVal {
+			highestVal = v
+			highestRune = k
+		}
+	}
+	return highestRune
 }
 
 func NewCode(s string) code {

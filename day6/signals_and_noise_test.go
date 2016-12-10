@@ -14,7 +14,7 @@ func Test_code_Decode(t *testing.T) {
 	// TODO: Add test cases.
 	}
 	for _, tt := range tests {
-		if got := tt.c.Decode(); got != tt.want {
+		if got := tt.c.DecodeMostCommon(); got != tt.want {
 			t.Errorf("%q. code.Decode() = %v, want %v", tt.name, got, tt.want)
 		}
 	}
