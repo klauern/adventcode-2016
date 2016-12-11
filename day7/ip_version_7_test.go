@@ -59,36 +59,3 @@ func TestNewIPv7(t *testing.T) {
 		}
 	}
 }
-
-func TestIPv7_supportsTLS(t *testing.T) {
-	type fields struct {
-		nonHyperNetSeqs []string
-		hyperNetSeqs    []string
-		isTLSSupported  bool
-	}
-	tests := []struct {
-		name   string
-		fields fields
-		want   bool
-	}{
-		{
-			"abba[mnop]qrst",
-			fields{
-				[]string{"abba", "qrst"},
-				[]string{"mnop"},
-				true,
-			},
-			true,
-		},
-	}
-	for _, tt := range tests {
-		ip := &IPv7{
-			nonHyperNetSeqs: tt.fields.nonHyperNetSeqs,
-			hyperNetSeqs:    tt.fields.hyperNetSeqs,
-			isTLSSupported:  tt.fields.isTLSSupported,
-		}
-		if got := ip.supportsTLS(); got != tt.want {
-			t.Errorf("%q. IPv7.supportsTLS() = %v, want %v", tt.name, got, tt.want)
-		}
-	}
-}

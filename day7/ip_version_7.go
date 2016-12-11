@@ -36,13 +36,24 @@ func NewIPv7(str string) *IPv7 {
 	for _, section := range sections {
 		nets := strings.Split(section, "[")
 		ip.nonHyperNetSeqs = append(ip.nonHyperNetSeqs, nets[0])
-		if nets[1] != nil {
+		if len(nets) > 1 {
 			ip.hyperNetSeqs = append(ip.hyperNetSeqs, nets[1])
 		}
 	}
+	ip.isTLSSupported = checkTLSSupported(ip.nonHyperNetSeqs, ip.hyperNetSeqs)
 	return ip
 }
 
-func (ip *IPv7) supportsTLS() bool {
+func checkTLSSupported(non, hyper []string) bool {
+	for _, val := range hyper {
+		if hasABBA(val) {
+			return false
+		}
+	}
+	for _, val := range non {
+		if hasABBA(val) {
+			return true
+		}
+	}
 	return false
 }
