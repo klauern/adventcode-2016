@@ -1,13 +1,20 @@
 package main
 
-import "strings"
+import (
+	"fmt"
+	"strings"
+
+	"github.com/klauern/adventcode-2016/helpers"
+)
+
+type subsequence []string
 
 // IPv7 represents Day 7's Internet Protocol version 7 specification.
 // It consists of pairs of hypernet sequences (surrounded by []'s) with
 // non-hyperNet sequences.
 type IPv7 struct {
-	nonHyperNetSeqs []string // even sequences (0, 2, 4, 6, ...)
-	hyperNetSeqs    []string // odd sequences (1, 3, 5, 7, ...)
+	nonHyperNetSeqs subsequence // even sequences (0, 2, 4, 6, ...)
+	hyperNetSeqs    subsequence // odd sequences (1, 3, 5, 7, ...)
 	isTLSSupported  bool
 }
 
@@ -30,6 +37,15 @@ func hasABBA(str string) bool {
 	return false
 }
 
+func (s subsequence) hasABBA() bool {
+	for _, val := range s {
+		if hasABBA(val) {
+			return true
+		}
+	}
+	return false
+}
+
 func NewIPv7(str string) *IPv7 {
 	ip := &IPv7{}
 	sections := strings.Split(str, "]")
@@ -40,20 +56,22 @@ func NewIPv7(str string) *IPv7 {
 			ip.hyperNetSeqs = append(ip.hyperNetSeqs, nets[1])
 		}
 	}
-	ip.isTLSSupported = checkTLSSupported(ip.nonHyperNetSeqs, ip.hyperNetSeqs)
+	if ip.hyperNetSeqs.hasABBA() {
+		ip.isTLSSupported = false
+	} else {
+		ip.isTLSSupported = ip.nonHyperNetSeqs.hasABBA()
+	}
 	return ip
 }
 
-func checkTLSSupported(non, hyper []string) bool {
-	for _, val := range hyper {
-		if hasABBA(val) {
-			return false
+func main() {
+	amount := 0
+	ipAddrs := helpers.MustLoadFile("input.txt")
+	for _, v := range strings.Split(ipAddrs, "\n") {
+		ipv7 := NewIPv7(v)
+		if ipv7.isTLSSupported {
+			amount++
 		}
 	}
-	for _, val := range non {
-		if hasABBA(val) {
-			return true
-		}
-	}
-	return false
+	fmt.Printf("Number of supported TLS addresses: %v", amount)
 }
