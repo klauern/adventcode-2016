@@ -26,7 +26,7 @@ func hasABBA(str string) bool {
 	if len(str) < 4 {
 		return false
 	}
-	for i := 1; i < len(str)-1; i++ {
+	for i := 1; i < len(str)-2; i++ {
 		if str[i] == str[i-1] {
 			continue
 		}
@@ -64,14 +64,20 @@ func NewIPv7(str string) *IPv7 {
 	return ip
 }
 
-func main() {
+func countAddressesTLSSupported(ipAddrs string) int {
 	amount := 0
-	ipAddrs := helpers.MustLoadFile("input.txt")
-	for _, v := range strings.Split(ipAddrs, "\n") {
+	addresses := strings.TrimSpace(ipAddrs)
+	ipAdrs := strings.Split(addresses, "\n")
+	for _, v := range ipAdrs {
 		ipv7 := NewIPv7(v)
 		if ipv7.isTLSSupported {
 			amount++
 		}
 	}
-	fmt.Printf("Number of supported TLS addresses: %v", amount)
+	return amount
+}
+
+func main() {
+	ipAddrs := helpers.MustLoadFile("input.txt")
+	fmt.Printf("Number of supported TLS addresses: %v", countAddressesTLSSupported(ipAddrs))
 }
