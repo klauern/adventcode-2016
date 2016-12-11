@@ -55,36 +55,36 @@ func TestNewIPv7(t *testing.T) {
 			"abba[mnop]qrst",
 			args{"abba[mnop]qrst"},
 			&IPv7{
-				hyperNetSeqs:    subsequence{"mnop"},
-				nonHyperNetSeqs: subsequence{"abba", "qrst"},
-				isTLSSupported:  true,
+				hyperNetSeqs:   subsequence{"mnop"},
+				superNetSeqs:   subsequence{"abba", "qrst"},
+				isTLSSupported: true,
 			},
 		},
 		{
 			"abcd[bddb]xyyx",
 			args{"abcd[bddb]xyyx"},
 			&IPv7{
-				hyperNetSeqs:    subsequence{"bddb"},
-				nonHyperNetSeqs: subsequence{"abcd", "xyyx"},
-				isTLSSupported:  false,
+				hyperNetSeqs:   subsequence{"bddb"},
+				superNetSeqs:   subsequence{"abcd", "xyyx"},
+				isTLSSupported: false,
 			},
 		},
 		{
 			"aaaa[qwer]tyui",
 			args{"aaaa[qwer]tyui"},
 			&IPv7{
-				hyperNetSeqs:    subsequence{"qwer"},
-				nonHyperNetSeqs: subsequence{"aaaa", "tyui"},
-				isTLSSupported:  false,
+				hyperNetSeqs:   subsequence{"qwer"},
+				superNetSeqs:   subsequence{"aaaa", "tyui"},
+				isTLSSupported: false,
 			},
 		},
 		{
 			"ioxxoj[asdfgh]zxcvbn",
 			args{"ioxxoj[asdfgh]zxcvbn"},
 			&IPv7{
-				hyperNetSeqs:    subsequence{"asdfgh"},
-				nonHyperNetSeqs: subsequence{"ioxxoj", "zxcvbn"},
-				isTLSSupported:  true,
+				hyperNetSeqs:   subsequence{"asdfgh"},
+				superNetSeqs:   subsequence{"ioxxoj", "zxcvbn"},
+				isTLSSupported: true,
 			},
 		},
 	}

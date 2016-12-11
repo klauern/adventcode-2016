@@ -13,9 +13,9 @@ type subsequence []string
 // It consists of pairs of hypernet sequences (surrounded by []'s) with
 // non-hyperNet sequences.
 type IPv7 struct {
-	nonHyperNetSeqs subsequence // even sequences (0, 2, 4, 6, ...)
-	hyperNetSeqs    subsequence // odd sequences (1, 3, 5, 7, ...)
-	isTLSSupported  bool
+	superNetSeqs   subsequence // even sequences (0, 2, 4, 6, ...)
+	hyperNetSeqs   subsequence // odd sequences (1, 3, 5, 7, ...)
+	isTLSSupported bool
 }
 
 // hasABBA calculates whether the given string has an ABBA.
@@ -51,7 +51,7 @@ func NewIPv7(str string) *IPv7 {
 	sections := strings.Split(str, "]")
 	for _, section := range sections {
 		nets := strings.Split(section, "[")
-		ip.nonHyperNetSeqs = append(ip.nonHyperNetSeqs, nets[0])
+		ip.superNetSeqs = append(ip.superNetSeqs, nets[0])
 		if len(nets) > 1 {
 			ip.hyperNetSeqs = append(ip.hyperNetSeqs, nets[1])
 		}
@@ -59,7 +59,7 @@ func NewIPv7(str string) *IPv7 {
 	if ip.hyperNetSeqs.hasABBA() {
 		ip.isTLSSupported = false
 	} else {
-		ip.isTLSSupported = ip.nonHyperNetSeqs.hasABBA()
+		ip.isTLSSupported = ip.superNetSeqs.hasABBA()
 	}
 	return ip
 }
