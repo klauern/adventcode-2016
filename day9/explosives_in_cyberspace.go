@@ -1,20 +1,11 @@
 package main
 
 import (
-	"bufio"
 	"bytes"
 	"strconv"
 
-	"strings"
-
 	"github.com/klauern/adventcode-2016/helpers"
 )
-
-var eof = rune(0)
-
-type Scanner struct {
-	r *bufio.Reader
-}
 
 type Repeating struct {
 	charCount,
@@ -50,21 +41,6 @@ func (s *Scanner) readMultiplier() *Repeating {
 		}
 	}
 	return &Repeating{charCount, times}
-}
-
-func (s *Scanner) read() rune {
-	ch, _, err := s.r.ReadRune()
-	if err != nil {
-		return eof
-	}
-	if ch == '\n' {
-		return EOL
-	}
-	return ch
-}
-
-func NewScanner(line string) *Scanner {
-	&Scanner{strings.NewReader(line)}
 }
 
 func decompress() {
