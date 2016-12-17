@@ -7,6 +7,7 @@ const (
 	EOF Token = iota
 	EOL
 	WS
+	ILLEGAL
 
 	// multiplier chars
 	START_MULTIPLIER
