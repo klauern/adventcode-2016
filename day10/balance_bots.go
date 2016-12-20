@@ -5,30 +5,62 @@ import (
 	"strings"
 )
 
+type value int
+type bot int
+type output int
+
 type valueMove struct {
 	value,
 	bot int
 }
 
+type Destination interface {
+	isOutput() bool
+	isBot() bool
+}
+
 type movement struct {
-	high,
-	low int
+	botId  bot
+	lowTo  Destination
+	highTo Destination
 }
 
-type value int
-type bot int
-
-type InstructionSet struct {
-	valueList    map[value]bot
-	movementList []movement
+func (b bot) isOutput() bool {
+	return false
 }
 
-func compileInstructions(instructions []string) (*InstructionSet, error) {
+func (b bot) isBot() bool {
+	return true
+}
+
+func (o output) isOutput() bool {
+	return true
+}
+
+func (o output) isBot() bool {
+	return false
+}
+
+type BotState struct {
+	valueList    map[bot][]value
+	movementList map[bot]*movement
+}
+
+func compileInstructions(instructions []string) (*BotState, error) {
+	state := &BotState{}
 
 	for _, v := range instructions {
-		if strings.HasPrefix(v, "value") {
-
+		switch strings.Fields(v)[0] {
+		case "value":
+			botId, value := NewValue(v)
+			if len(state.valueList[botId]) >= 2 {
+				IterateCalcs()
+			}
+			state.valueList[botId] = append(state.valueList[botId], value)
+		case "bot":
+			val := NewMovement(v)
 		}
+
 	}
 	return nil, nil
 }
@@ -44,4 +76,42 @@ func NewValue(val string) (bot, value) {
 		panic(err)
 	}
 	return bot(botVal), value(valueVal)
+}
+
+func NewMovement(val string) *movement {
+	fields := strings.Fields(val)
+	botNum, err := strconv.Atoi(fields[1])
+	if err != nil {
+		panic(err)
+	}
+	var low, high Destination
+	lowVal, err := strconv.Atoi(fields[6])
+	if err != nil {
+		panic(err)
+	}
+	switch fields[5] {
+	case "bot":
+		low = bot(lowVal)
+	case "output":
+		low = output(lowVal)
+	}
+	highVal, err := strconv.Atoi(fields[11])
+	if err != nil {
+		panic(err)
+	}
+	switch fields[10] {
+	case "bot":
+		high = bot(highVal)
+	case "output":
+		high = output(highVal)
+	}
+	return &movement{
+		botId:  bot(botNum),
+		lowTo:  low,
+		highTo: high,
+	}
+}
+
+func IterateCalcs() {
+
 }
