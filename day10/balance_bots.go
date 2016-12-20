@@ -41,9 +41,10 @@ func compileInstructions(instructions []string) (*BotState, error) {
 		case valType:
 			id, chip := NewValue(v)
 			if state.bots[id].canReceive() {
+				state.bots[botID].vals = append(state.bots[botID].vals, chip)
+			} else {
 				state.IterateCalcs()
 			}
-			state.valueList[botID] = append(state.valueList[botID], chip)
 		case botType:
 			botID, move := NewMovement(v)
 			state.movementList[botID] = move
