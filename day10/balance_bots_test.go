@@ -3,6 +3,8 @@ package main
 import (
 	"reflect"
 	"testing"
+
+	"github.com/klauern/adventcode-2016/helpers"
 )
 
 func Test_bot_isOutput(t *testing.T) {
@@ -164,7 +166,7 @@ func TestNewMovement(t *testing.T) {
 		{
 			"bot 2 gives low to bot 1 and high to bot 0",
 			args{"bot 2 gives low to bot 1 and high to bot 0"},
-			bot(2),
+			bot{id: botID(2), vals: []value{value(1)}},
 			&movement{lowTo: bot(1), highTo: bot(0)},
 		},
 		{
@@ -211,6 +213,160 @@ func TestBotState_IterateCalcs(t *testing.T) {
 				movementList: tt.fields.movementList,
 			}
 			b.IterateCalcs()
+		})
+	}
+}
+
+func TestValueCount(t *testing.T) {
+	file := helpers.MustScanFile("input")
+	for file.Scan() {
+		line := file.Text()
+	}
+}
+
+func Test_output_canReceive(t *testing.T) {
+	type fields struct {
+		id   outputID
+		vals []value
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		want   bool
+	}{
+		{
+			"output (true)",
+			fields{outputID(50), []vals{}},
+			true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			o := output{
+				id:   tt.fields.id,
+				vals: tt.fields.vals,
+			}
+			if got := o.canReceive(); got != tt.want {
+				t.Errorf("output.canReceive() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_bot_canReceive(t *testing.T) {
+	type fields struct {
+		id   botID
+		vals []value
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		want   bool
+	}{
+	// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			b := bot{
+				id:   tt.fields.id,
+				vals: tt.fields.vals,
+			}
+			if got := b.canReceive(); got != tt.want {
+				t.Errorf("bot.canReceive() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_output_receiveValue(t *testing.T) {
+	type fields struct {
+		id   outputID
+		vals []value
+	}
+	type args struct {
+		val value
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		args   args
+	}{
+	// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			o := output{
+				id:   tt.fields.id,
+				vals: tt.fields.vals,
+			}
+			o.receiveValue(tt.args.val)
+		})
+	}
+}
+
+func Test_bot_receiveValue(t *testing.T) {
+	type fields struct {
+		id   botID
+		vals []value
+	}
+	type args struct {
+		val value
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		args   args
+	}{
+	// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			b := bot{
+				id:   tt.fields.id,
+				vals: tt.fields.vals,
+			}
+			b.receiveValue(tt.args.val)
+		})
+	}
+}
+
+func TestBotState_move(t *testing.T) {
+	type fields struct {
+		bots         map[botID]*bot
+		movementList map[botID]*movement
+		outputList   map[int][]value
+	}
+	type args struct {
+		id botID
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		args   args
+	}{
+	// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			b := &BotState{
+				bots:         tt.fields.bots,
+				movementList: tt.fields.movementList,
+				outputList:   tt.fields.outputList,
+			}
+			b.move(tt.args.id)
+		})
+	}
+}
+
+func Test_main(t *testing.T) {
+	tests := []struct {
+		name string
+	}{
+	// TODO: Add test cases.
+	}
+	for range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			main()
 		})
 	}
 }
