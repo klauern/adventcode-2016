@@ -20,7 +20,6 @@ type Destination interface {
 }
 
 type movement struct {
-	botId  bot
 	lowTo  Destination
 	highTo Destination
 }
@@ -54,15 +53,15 @@ func compileInstructions(instructions []string) (*BotState, error) {
 		case "value":
 			botId, value := NewValue(v)
 			if len(state.valueList[botId]) >= 2 {
-				IterateCalcs()
+				state.IterateCalcs()
 			}
 			state.valueList[botId] = append(state.valueList[botId], value)
 		case "bot":
-			val := NewMovement(v)
+			botId, move := NewMovement(v)
+			state.movementList[botId] = move
 		}
-
 	}
-	return nil, nil
+	return state, nil
 }
 
 func NewValue(val string) (bot, value) {
@@ -78,7 +77,7 @@ func NewValue(val string) (bot, value) {
 	return bot(botVal), value(valueVal)
 }
 
-func NewMovement(val string) *movement {
+func NewMovement(val string) (bot, *movement) {
 	fields := strings.Fields(val)
 	botNum, err := strconv.Atoi(fields[1])
 	if err != nil {
@@ -105,13 +104,12 @@ func NewMovement(val string) *movement {
 	case "output":
 		high = output(highVal)
 	}
-	return &movement{
-		botId:  bot(botNum),
+	return bot(botNum), &movement{
 		lowTo:  low,
 		highTo: high,
 	}
 }
 
-func IterateCalcs() {
+func (b *BotState) IterateCalcs() {
 
 }
