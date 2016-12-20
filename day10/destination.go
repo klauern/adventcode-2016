@@ -3,14 +3,13 @@ package main
 type Destination interface {
 	isOutput() bool
 	isBot() bool
-	canReceive() bool
 }
 
-func (b bot) isOutput() bool {
+func (b botID) isOutput() bool {
 	return false
 }
 
-func (b bot) isBot() bool {
+func (b botID) isBot() bool {
 	return true
 }
 

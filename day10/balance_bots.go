@@ -28,7 +28,7 @@ type (
 // BotState represents the entire state of the assembly line in a particular
 // point in time.
 type BotState struct {
-	bots         map[botID]bot
+	bots         map[botID]*bot
 	movementList map[botID]*movement
 	outputList   map[output][]value
 }
@@ -41,13 +41,13 @@ func compileInstructions(instructions []string) (*BotState, error) {
 		case valType:
 			id, chip := NewValue(v)
 			if state.bots[id].canReceive() {
-				state.bots[botID].vals = append(state.bots[botID].vals, chip)
+				state.bots[id].vals = append(state.bots[id].vals, chip)
 			} else {
 				state.IterateCalcs()
 			}
 		case botType:
-			botID, move := NewMovement(v)
-			state.movementList[botID] = move
+			b, move := NewMovement(v)
+			state.movementList[b] = move
 		}
 	}
 	return state, nil
@@ -69,7 +69,7 @@ func NewValue(val string) (botID, value) {
 
 // NewMovement will parse an instruction line and create a new
 // bot and movement rule.
-func NewMovement(val string) (bot, *movement) {
+func NewMovement(val string) (botID, *movement) {
 	fields := strings.Fields(val)
 	botNum, err := strconv.Atoi(fields[1])
 	if err != nil {
@@ -82,7 +82,7 @@ func NewMovement(val string) (bot, *movement) {
 	}
 	switch fields[5] {
 	case botType:
-		low = bot(lowVal)
+		low = botID(lowVal)
 	case outputType:
 		low = output(lowVal)
 	}
@@ -92,11 +92,11 @@ func NewMovement(val string) (bot, *movement) {
 	}
 	switch fields[10] {
 	case botType:
-		high = bot(highVal)
+		high = botID(highVal)
 	case outputType:
 		high = output(highVal)
 	}
-	return bot(botNum), &movement{
+	return botID(botNum), &movement{
 		lowTo:  low,
 		highTo: high,
 	}
