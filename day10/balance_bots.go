@@ -5,6 +5,10 @@ import (
 	"strings"
 )
 
+const botType = "bot"
+const valType = "value"
+const outputType = "output"
+
 type value int
 type bot int
 type output int
@@ -50,15 +54,15 @@ func compileInstructions(instructions []string) (*BotState, error) {
 
 	for _, v := range instructions {
 		switch strings.Fields(v)[0] {
-		case "value":
-			botId, value := NewValue(v)
-			if len(state.valueList[botId]) >= 2 {
+		case valType:
+			botID, chip := NewValue(v)
+			if len(state.valueList[botID]) >= 2 {
 				state.IterateCalcs()
 			}
-			state.valueList[botId] = append(state.valueList[botId], value)
-		case "bot":
-			botId, move := NewMovement(v)
-			state.movementList[botId] = move
+			state.valueList[botID] = append(state.valueList[botID], chip)
+		case botType:
+			botID, move := NewMovement(v)
+			state.movementList[botID] = move
 		}
 	}
 	return state, nil
@@ -89,9 +93,9 @@ func NewMovement(val string) (bot, *movement) {
 		panic(err)
 	}
 	switch fields[5] {
-	case "bot":
+	case botType:
 		low = bot(lowVal)
-	case "output":
+	case outputType:
 		low = output(lowVal)
 	}
 	highVal, err := strconv.Atoi(fields[11])
@@ -99,9 +103,9 @@ func NewMovement(val string) (bot, *movement) {
 		panic(err)
 	}
 	switch fields[10] {
-	case "bot":
+	case botType:
 		high = bot(highVal)
-	case "output":
+	case outputType:
 		high = output(highVal)
 	}
 	return bot(botNum), &movement{

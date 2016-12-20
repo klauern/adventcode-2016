@@ -125,7 +125,18 @@ func TestNewValue(t *testing.T) {
 		want  bot
 		want1 value
 	}{
-	// TODO: Add test cases.
+		{
+			"value 5 goes to bot 2",
+			args{"value 5 goes to bot 2"},
+			bot(2),
+			value(5),
+		},
+		{
+			"value 3 goes to bot 1",
+			args{"value 3 goes to bot 1"},
+			bot(1),
+			value(3),
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -150,7 +161,24 @@ func TestNewMovement(t *testing.T) {
 		want  bot
 		want1 *movement
 	}{
-	// TODO: Add test cases.
+		{
+			"bot 2 gives low to bot 1 and high to bot 0",
+			args{"bot 2 gives low to bot 1 and high to bot 0"},
+			bot(2),
+			&movement{lowTo: bot(1), highTo: bot(0)},
+		},
+		{
+			"bot 1 gives low to output 1 and high to bot 0",
+			args{"bot 1 gives low to output 1 and high to bot 0"},
+			bot(1),
+			&movement{lowTo: output(1), highTo: bot(0)},
+		},
+		{
+			"bot 0 gives low to output 2 and high to output 0",
+			args{"bot 0 gives low to output 2 and high to output 0"},
+			bot(0),
+			&movement{lowTo: output(2), highTo: output(0)},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
