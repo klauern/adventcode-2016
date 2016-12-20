@@ -5,48 +5,32 @@ import (
 	"strings"
 )
 
-const botType = "bot"
-const valType = "value"
-const outputType = "output"
+const (
+	botType    = "bot"
+	valType    = "value"
+	outputType = "output"
+)
 
-type value int
-type bot int
-type output int
+type (
+	value  int
+	botID  int
+	output int
+	bot    struct {
+		id   botID
+		vals []value
+	}
+	movement struct {
+		lowTo  Destination
+		highTo Destination
+	}
+)
 
-type valueMove struct {
-	value,
-	bot int
-}
-
-type Destination interface {
-	isOutput() bool
-	isBot() bool
-}
-
-type movement struct {
-	lowTo  Destination
-	highTo Destination
-}
-
-func (b bot) isOutput() bool {
-	return false
-}
-
-func (b bot) isBot() bool {
-	return true
-}
-
-func (o output) isOutput() bool {
-	return true
-}
-
-func (o output) isBot() bool {
-	return false
-}
-
+// BotState represents the entire state of the assembly line in a particular
+// point in time.
 type BotState struct {
-	valueList    map[bot][]value
-	movementList map[bot]*movement
+	bots         map[botID]bot
+	movementList map[botID]*movement
+	outputList   map[output][]value
 }
 
 func compileInstructions(instructions []string) (*BotState, error) {
@@ -55,8 +39,8 @@ func compileInstructions(instructions []string) (*BotState, error) {
 	for _, v := range instructions {
 		switch strings.Fields(v)[0] {
 		case valType:
-			botID, chip := NewValue(v)
-			if len(state.valueList[botID]) >= 2 {
+			id, chip := NewValue(v)
+			if state.bots[id].canReceive() {
 				state.IterateCalcs()
 			}
 			state.valueList[botID] = append(state.valueList[botID], chip)
@@ -68,7 +52,8 @@ func compileInstructions(instructions []string) (*BotState, error) {
 	return state, nil
 }
 
-func NewValue(val string) (bot, value) {
+// NewValue creates a new chip assignment to a bot.
+func NewValue(val string) (botID, value) {
 	fields := strings.Fields(val)
 	botVal, err := strconv.Atoi(fields[5])
 	if err != nil {
@@ -78,9 +63,11 @@ func NewValue(val string) (bot, value) {
 	if err != nil {
 		panic(err)
 	}
-	return bot(botVal), value(valueVal)
+	return botID(botVal), value(valueVal)
 }
 
+// NewMovement will parse an instruction line and create a new
+// bot and movement rule.
 func NewMovement(val string) (bot, *movement) {
 	fields := strings.Fields(val)
 	botNum, err := strconv.Atoi(fields[1])
@@ -114,6 +101,29 @@ func NewMovement(val string) (bot, *movement) {
 	}
 }
 
+// IterateCalcs will iterate over the BotState and determine the calculations
+// for all bots with two chips.
 func (b *BotState) IterateCalcs() {
+	for k, v := range b.valueList {
+		if len(v) == 2 {
+			movement := b.movementList[k]
+			b = b.move(k)
+		}
+	}
 
+}
+
+func (b *BotState) move(id bot) {
+	values := b.valueList[id]
+	var high, low value
+	if values[0] > values[1] {
+		high, low = values[0], values[1]
+	} else {
+		high, low = values[1], values[0]
+	}
+	movement := b.movementList[id]
+
+	// this is likely recursive, as you will be moving the high/low vals to respective
+	// bots.  You start with the low, then move the high, recursing on this same call
+	// to make calls if the destination that you're going to need to do i
 }
