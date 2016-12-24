@@ -2,11 +2,10 @@ package main
 
 import (
 	"fmt"
-	"strconv"
-	"strings"
-
 	"log"
 	"os"
+	"strconv"
+	"strings"
 
 	"github.com/klauern/adventcode-2016/helpers"
 )
@@ -39,7 +38,6 @@ func isRegister(val string) bool {
 }
 
 func (p *Program) execute(instr []string) bool {
-	logger.Printf("switch on %v\n", instr[0])
 	switch instr[0] {
 	case "cpy":
 		p.copy(instr[1], instr[2])
@@ -63,6 +61,7 @@ func (p *Program) Run() {
 		}
 		p.counter++
 		logger.Printf("counter: %v", p.counter)
+		logger.Printf("program: %v", p)
 	}
 }
 
@@ -118,29 +117,28 @@ func (p *Program) jumpNZ(reg, delta string) bool {
 			return true
 		}
 		return false
-	} else {
-		val, err := strconv.Atoi(reg)
+	}
+	val, err := strconv.Atoi(reg)
+	if err != nil {
+		panic(err)
+	}
+	if val != 0 {
+		jump, err := strconv.Atoi(delta)
 		if err != nil {
 			panic(err)
 		}
-		if val != 0 {
-			jump, err := strconv.Atoi(delta)
-			if err != nil {
-				panic(err)
-			}
-			p.counter += jump
-			return true
-		}
-		return false
+		p.counter += jump
+		return true
 	}
+	return false
 }
 
 func (p *Program) String() string {
-	return fmt.Sprintf("Program Register values:\na: %v\nb: %v\nc: %v\nd: %v", p.aReg, p.bReg, p.cReg, p.dReg)
+	return fmt.Sprintf("Program Register values: a: %v b: %v c: %v d: %v", p.aReg, p.bReg, p.cReg, p.dReg)
 }
 
 func main() {
-	logger = log.New(os.Stdout, "day12 ", 0)
+	logger = log.New(os.Stdout, "", 0)
 	file := helpers.MustScanFile("input.txt")
 	instructionSet := make([]string, 0)
 	for file.Scan() {
