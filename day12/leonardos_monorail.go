@@ -10,18 +10,6 @@ import (
 	"github.com/klauern/adventcode-2016/helpers"
 )
 
-type Instruction int
-
-var logger *log.Logger
-
-const (
-	cpy Instruction = iota
-	inc
-	dec
-	jnz
-	unknown
-)
-
 type Register int
 
 type Program struct {
@@ -32,6 +20,8 @@ type Program struct {
 	cReg         Register
 	dReg         Register
 }
+
+var logger *log.Logger
 
 func isRegister(val string) bool {
 	return val == "a" || val == "b" || val == "c" || val == "d"
@@ -61,7 +51,7 @@ func (p *Program) Run() {
 		}
 		p.counter++
 		logger.Printf("counter: %v", p.counter)
-		logger.Printf("program: %v", p)
+		logger.Printf("%v", p)
 	}
 }
 
