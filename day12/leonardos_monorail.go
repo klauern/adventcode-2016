@@ -99,11 +99,7 @@ func (p *Program) jumpNZ(reg, delta string) bool {
 		r := p.getRegister(reg)
 		logger.Printf("register %v\n", *r)
 		if int(*r) != 0 {
-			jump, err := strconv.Atoi(delta)
-			if err != nil {
-				panic(err)
-			}
-			p.counter += jump
+			p.jump(delta)
 			return true
 		}
 		return false
@@ -113,14 +109,18 @@ func (p *Program) jumpNZ(reg, delta string) bool {
 		panic(err)
 	}
 	if val != 0 {
-		jump, err := strconv.Atoi(delta)
-		if err != nil {
-			panic(err)
-		}
-		p.counter += jump
+		p.jump(delta)
 		return true
 	}
 	return false
+}
+
+func (p *Program) jump(delta string) {
+	jump, err := strconv.Atoi(delta)
+	if err != nil {
+		panic(err)
+	}
+	p.counter += jump
 }
 
 func (p *Program) String() string {
