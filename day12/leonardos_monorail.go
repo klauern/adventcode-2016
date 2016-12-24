@@ -68,12 +68,12 @@ func (p *Program) getRegister(reg string) *Register {
 	return nil
 }
 
-func (p *Program) copy(from, to string) {
+func (p *Program) copy(from, to string) Register {
 	toReg := p.getRegister(to)
 	if isRegister(from) {
 		fVal := p.getRegister(from)
 		*toReg = *fVal
-		logger.Printf("value of %s is %v\n", from, *toReg)
+		//logger.Printf("value of %s is %d\n", from, *toReg)
 	} else {
 		fVal, err := strconv.Atoi(from)
 		if err != nil {
@@ -81,16 +81,19 @@ func (p *Program) copy(from, to string) {
 		}
 		*toReg = Register(fVal)
 	}
+	return *toReg
 }
 
-func (p *Program) increment(register string) {
+func (p *Program) increment(register string) Register {
 	reg := p.getRegister(register)
 	*reg++
+	return *reg
 }
 
-func (p *Program) decrement(register string) {
+func (p *Program) decrement(register string) Register {
 	reg := p.getRegister(register)
 	*reg--
+	return *reg
 }
 
 func (p *Program) jumpNZ(reg, delta string) bool {

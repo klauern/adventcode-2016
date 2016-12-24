@@ -113,109 +113,6 @@ func TestProgram_Run(t *testing.T) {
 	}
 }
 
-func TestProgram_copy(t *testing.T) {
-	type fields struct {
-		counter      int
-		instructions []string
-		aReg         Register
-		bReg         Register
-		cReg         Register
-		dReg         Register
-	}
-	type args struct {
-		from string
-		to   string
-	}
-	tests := []struct {
-		name   string
-		fields fields
-		args   args
-	}{
-	// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			p := &Program{
-				counter:      tt.fields.counter,
-				instructions: tt.fields.instructions,
-				aReg:         tt.fields.aReg,
-				bReg:         tt.fields.bReg,
-				cReg:         tt.fields.cReg,
-				dReg:         tt.fields.dReg,
-			}
-			p.copy(tt.args.from, tt.args.to)
-		})
-	}
-}
-
-func TestProgram_increment(t *testing.T) {
-	type fields struct {
-		counter      int
-		instructions []string
-		aReg         Register
-		bReg         Register
-		cReg         Register
-		dReg         Register
-	}
-	type args struct {
-		register string
-	}
-	tests := []struct {
-		name   string
-		fields fields
-		args   args
-	}{
-	// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			p := &Program{
-				counter:      tt.fields.counter,
-				instructions: tt.fields.instructions,
-				aReg:         tt.fields.aReg,
-				bReg:         tt.fields.bReg,
-				cReg:         tt.fields.cReg,
-				dReg:         tt.fields.dReg,
-			}
-			p.increment(tt.args.register)
-		})
-	}
-}
-
-func TestProgram_decrement(t *testing.T) {
-	type fields struct {
-		counter      int
-		instructions []string
-		aReg         Register
-		bReg         Register
-		cReg         Register
-		dReg         Register
-	}
-	type args struct {
-		register string
-	}
-	tests := []struct {
-		name   string
-		fields fields
-		args   args
-	}{
-	// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			p := &Program{
-				counter:      tt.fields.counter,
-				instructions: tt.fields.instructions,
-				aReg:         tt.fields.aReg,
-				bReg:         tt.fields.bReg,
-				cReg:         tt.fields.cReg,
-				dReg:         tt.fields.dReg,
-			}
-			p.decrement(tt.args.register)
-		})
-	}
-}
-
 func TestProgram_jumpNZ(t *testing.T) {
 	type fields struct {
 		counter      int
@@ -266,7 +163,8 @@ func TestProgram_jumpNZ(t *testing.T) {
 				cReg:         tt.fields.cReg,
 				dReg:         tt.fields.dReg,
 			}
-			if got := p.jumpNZ(tt.args.reg, tt.args.delta); got != tt.want {
+			got := p.jumpNZ(tt.args.reg, tt.args.delta)
+			if got != tt.want {
 				t.Errorf("Program.jumpNZ() = %v, want %v", got, tt.want)
 			}
 		})
@@ -317,6 +215,209 @@ func TestProgram_jump(t *testing.T) {
 				dReg:         tt.fields.dReg,
 			}
 			p.jump(tt.args.delta)
+		})
+	}
+}
+
+func TestProgram_getRegister(t *testing.T) {
+	type fields struct {
+		counter      int
+		instructions []string
+		aReg         Register
+		bReg         Register
+		cReg         Register
+		dReg         Register
+	}
+	type args struct {
+		reg string
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		args   args
+		want   *Register
+	}{
+	// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			p := &Program{
+				counter:      tt.fields.counter,
+				instructions: tt.fields.instructions,
+				aReg:         tt.fields.aReg,
+				bReg:         tt.fields.bReg,
+				cReg:         tt.fields.cReg,
+				dReg:         tt.fields.dReg,
+			}
+			if got := p.getRegister(tt.args.reg); got != tt.want {
+				t.Errorf("Program.getRegister() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestProgram_copy(t *testing.T) {
+	type fields struct {
+		counter      int
+		instructions []string
+		aReg         Register
+		bReg         Register
+		cReg         Register
+		dReg         Register
+	}
+	type args struct {
+		from string
+		to   string
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		args   args
+		want   Register
+	}{
+		{
+			"cpy 1 a",
+			fields{aReg: Register(1)},
+			args{from: "1", to: "a"},
+			Register(1),
+		},
+		{
+			"cpy a b (a=2)",
+			fields{aReg: Register(2)},
+			args{from: "a", to: "b"},
+			Register(2),
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			p := &Program{
+				counter:      tt.fields.counter,
+				instructions: tt.fields.instructions,
+				aReg:         tt.fields.aReg,
+				bReg:         tt.fields.bReg,
+				cReg:         tt.fields.cReg,
+				dReg:         tt.fields.dReg,
+			}
+			if got := p.copy(tt.args.from, tt.args.to); got != tt.want {
+				t.Errorf("Program.copy() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestProgram_increment(t *testing.T) {
+	type fields struct {
+		counter      int
+		instructions []string
+		aReg         Register
+		bReg         Register
+		cReg         Register
+		dReg         Register
+	}
+	type args struct {
+		register string
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		args   args
+		want   Register
+	}{
+		{
+			"inc a (1 -> 2)",
+			fields{aReg: Register(1)},
+			args{"a"},
+			Register(2),
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			p := &Program{
+				counter:      tt.fields.counter,
+				instructions: tt.fields.instructions,
+				aReg:         tt.fields.aReg,
+				bReg:         tt.fields.bReg,
+				cReg:         tt.fields.cReg,
+				dReg:         tt.fields.dReg,
+			}
+			if got := p.increment(tt.args.register); got != tt.want {
+				t.Errorf("Program.increment() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestProgram_decrement(t *testing.T) {
+	type fields struct {
+		counter      int
+		instructions []string
+		aReg         Register
+		bReg         Register
+		cReg         Register
+		dReg         Register
+	}
+	type args struct {
+		register string
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		args   args
+		want   Register
+	}{
+		{
+			"dec c (2 -> 1)",
+			fields{cReg: Register(2)},
+			args{"c"},
+			Register(1),
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			p := &Program{
+				counter:      tt.fields.counter,
+				instructions: tt.fields.instructions,
+				aReg:         tt.fields.aReg,
+				bReg:         tt.fields.bReg,
+				cReg:         tt.fields.cReg,
+				dReg:         tt.fields.dReg,
+			}
+			if got := p.decrement(tt.args.register); got != tt.want {
+				t.Errorf("Program.decrement() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestProgram_String(t *testing.T) {
+	type fields struct {
+		counter      int
+		instructions []string
+		aReg         Register
+		bReg         Register
+		cReg         Register
+		dReg         Register
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		want   string
+	}{
+	// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			p := &Program{
+				counter:      tt.fields.counter,
+				instructions: tt.fields.instructions,
+				aReg:         tt.fields.aReg,
+				bReg:         tt.fields.bReg,
+				cReg:         tt.fields.cReg,
+				dReg:         tt.fields.dReg,
+			}
+			if got := p.String(); got != tt.want {
+				t.Errorf("Program.String() = %v, want %v", got, tt.want)
+			}
 		})
 	}
 }
