@@ -36,8 +36,7 @@ func (p *Program) execute(instr []string) bool {
 	case "dec":
 		p.decrement(instr[1])
 	case "jnz":
-		jumped := p.jumpNZ(instr[1], instr[2])
-		return jumped
+		return p.jumpNZ(instr[1], instr[2])
 	}
 	return false
 }
@@ -46,12 +45,12 @@ func (p *Program) Run() {
 	for p.counter < len(p.instructions) {
 		fields := strings.Fields(p.instructions[p.counter])
 		cont := p.execute(fields)
+		logger.Printf("counter: %v", p.counter)
+		logger.Printf("%v", p)
 		if cont {
 			continue
 		}
 		p.counter++
-		logger.Printf("counter: %v", p.counter)
-		logger.Printf("%v", p)
 	}
 }
 
@@ -97,7 +96,7 @@ func (p *Program) decrement(register string) {
 func (p *Program) jumpNZ(reg, delta string) bool {
 	if isRegister(reg) {
 		r := p.getRegister(reg)
-		logger.Printf("register %v\n", *r)
+		//logger.Printf("register %v\n", *r)
 		if int(*r) != 0 {
 			p.jump(delta)
 			return true
