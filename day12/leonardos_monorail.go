@@ -15,10 +15,10 @@ type Register int
 type Program struct {
 	counter      int
 	instructions []string
-	aReg         Register
-	bReg         Register
-	cReg         Register
-	dReg         Register
+	aReg         *Register
+	bReg         *Register
+	cReg         *Register
+	dReg         *Register
 }
 
 var logger *log.Logger
@@ -57,52 +57,57 @@ func (p *Program) Run() {
 func (p *Program) getRegister(reg string) *Register {
 	switch reg {
 	case "a":
-		return &p.aReg
+		return p.aReg
 	case "b":
-		return &p.bReg
+		return p.bReg
 	case "c":
-		return &p.cReg
+		return p.cReg
 	case "d":
-		return &p.dReg
+		return p.dReg
 	}
+	logger.Printf("Nil value retrieved for Register %s\n", reg)
 	return nil
 }
 
-func (p *Program) copy(from, to string) Register {
+func (p *Program) copy(from, to string) *Register {
 	toReg := p.getRegister(to)
 	if isRegister(from) {
 		fVal := p.getRegister(from)
-		*toReg = *fVal
-		//logger.Printf("value of %s is %d\n", from, *toReg)
+		if fVal != nil {
+			*toReg = *fVal
+		}
 	} else {
 		fVal, err := strconv.Atoi(from)
 		if err != nil {
 			panic(err)
 		}
-		*toReg = Register(fVal)
+		r := Register(fVal)
+		toReg = &r
 	}
-	return *toReg
+	return toReg
 }
 
-func (p *Program) increment(register string) Register {
+func (p *Program) increment(register string) *Register {
 	reg := p.getRegister(register)
 	*reg++
-	return *reg
+	return reg
 }
 
-func (p *Program) decrement(register string) Register {
+func (p *Program) decrement(register string) *Register {
 	reg := p.getRegister(register)
 	*reg--
-	return *reg
+	return reg
 }
 
 func (p *Program) jumpNZ(reg, delta string) bool {
 	if isRegister(reg) {
 		r := p.getRegister(reg)
-		//logger.Printf("register %v\n", *r)
-		if int(*r) != 0 {
-			p.jump(delta)
-			return true
+		if r != nil {
+			logger.Printf("register %d\n", *r)
+			if int(*r) != 0 {
+				p.jump(delta)
+				return true
+			}
 		}
 		return false
 	}
@@ -126,7 +131,7 @@ func (p *Program) jump(delta string) {
 }
 
 func (p *Program) String() string {
-	return fmt.Sprintf("Program Register values: a: %v b: %v c: %v d: %v", p.aReg, p.bReg, p.cReg, p.dReg)
+	return fmt.Sprintf("Program Register values: a: %v b: %v c: %v d: %v", *p.aReg, *p.bReg, *p.cReg, *p.dReg)
 }
 
 func main() {
@@ -138,7 +143,11 @@ func main() {
 		fmt.Printf("Line %v\n", line)
 		instructionSet = append(instructionSet, line)
 	}
-	program := &Program{instructions: instructionSet}
+	a := Register(0)
+	b := Register(0)
+	c := Register(0)
+	d := Register(0)
+	program := &Program{instructions: instructionSet, aReg: &a, bReg: &b, cReg: &c, dReg: &d}
 	program.Run()
 	fmt.Println(program)
 }
