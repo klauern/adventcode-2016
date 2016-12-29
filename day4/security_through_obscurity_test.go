@@ -62,3 +62,32 @@ func TestCountString(t *testing.T) {
 		})
 	}
 }
+
+func TestMergeMaps(t *testing.T) {
+	type args struct {
+		maps []map[rune]int
+	}
+	tests := []struct {
+		name string
+		args args
+		want map[rune]int
+	}{
+		{
+			"abcd, abd",
+			args{
+				[]map[rune]int{
+					{'a': 1, 'b': 1, 'c': 1, 'd': 1},
+					{'a': 1, 'b': 1, 'd': 1},
+				},
+			},
+			map[rune]int{'a': 2, 'b': 2, 'c': 1, 'd': 2},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := MergeMaps(tt.args.maps); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("MergeMaps() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

@@ -19,3 +19,13 @@ func CountString(room string) map[rune]int {
 	}
 	return charMap
 }
+
+func MergeMaps(maps []map[rune]int) map[rune]int {
+	results := make(map[rune]int, 0)
+	for _, m := range maps {
+		for k, v := range m {
+			results[k] += v
+		}
+	}
+	return results
+}
